@@ -1,22 +1,26 @@
 # Hackatlon Backend - Flask API
 
-A robust Flask-based REST API with MySQL database integration, designed for hackathon projects.
+A robust Flask-based REST API with MySQL database integration and AI chat capabilities, designed for hackathon projects.
 
 ## 🚀 Features
 
 - **Flask Framework**: Modern Python web framework
 - **MySQL Database**: With SQLAlchemy ORM and migrations
+- **AI Chat Integration**: Local Gemma:7B model integration via Ollama
 - **CORS Support**: Cross-origin resource sharing enabled
 - **Docker Support**: Containerized application and database
 - **Testing**: Comprehensive test suite with pytest
 - **Code Quality**: Structured with services, models, and blueprints
+- **Swagger Documentation**: Interactive API documentation
 
 ## 📋 Prerequisites
 
 - Python 3.10+
-- Poetry (Python dependency manager)
+- Poetry (Python dependency manager) or pip
 - Docker & Docker Compose
 - MySQL (or use Docker MySQL container)
+- **Ollama** (for AI chat functionality)
+- **Gemma:7B model** (downloaded via Ollama)
 
 ## 🛠️ Installation
 
@@ -47,7 +51,20 @@ cp .env.example .env
 nano .env
 ```
 
-### 4. Database Setup
+### 4. AI Chat Setup (Optional but Recommended)
+
+```bash
+# Install Ollama
+curl -fsSL https://ollama.ai/install.sh | sh
+
+# Download Gemma:7B model
+ollama pull gemma:7b
+
+# Verify installation
+ollama list
+```
+
+### 5. Database Setup
 
 #### Option A: Using Docker (Recommended)
 
@@ -98,6 +115,18 @@ docker-compose up --build
 - **GET** `/` - Root endpoint
 - **GET** `/health` - Health check endpoint
 
+### AI Chat (NEW! 🤖)
+
+- **POST** `/chat` - Send a query to Gemma:7B model
+  ```json
+  {
+    "query": "Explícame qué es la inteligencia artificial"
+  }
+  ```
+- **GET** `/chat/model-info` - Get information about the current model
+
+### Authentication
+
 ## 🧪 Testing
 
 ### Run All Tests
@@ -114,6 +143,18 @@ poetry run pytest test/test_health.py -v
 
 # Docker tests
 poetry run pytest test/test_docker.py -v
+```
+
+### Test Chat Endpoint
+
+```bash
+# Run comprehensive chat API tests
+python test_chat.py
+
+# Or test manually with curl
+curl -X POST http://localhost:8000/chat \
+  -H "Content-Type: application/json" \
+  -d '{"query": "Hola, ¿cómo estás?"}'
 ```
 
 ## 🐳 Docker Configuration
@@ -194,6 +235,22 @@ hackatlon-back/
    # Kill process
    kill -9 <PID>
    ```
+
+4. **Chat/Ollama Issues**
+   ```bash
+   # Check if Ollama is running
+   ollama list
+   
+   # Restart Ollama service
+   sudo systemctl restart ollama
+   
+   # Check if model is available
+   ollama run gemma:7b "test"
+   ```
+
+## 🤖 AI Chat Documentation
+
+For detailed information about the chat API, including integration examples and troubleshooting, see [CHAT_API_DOCS.md](./CHAT_API_DOCS.md).
 
 ## 👥 Authors
 
