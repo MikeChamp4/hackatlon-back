@@ -3,7 +3,6 @@ import time
 from sqlalchemy import text
 from config.db_settings import DbSettings
 from database.connection_db import SessionManager
-from models.user_model import UserModel
 
 
 class AuthService():

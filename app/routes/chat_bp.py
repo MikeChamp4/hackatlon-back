@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from config.ollama_settings import OllamaSettings 
 from services.chat_service import ChatService
 from flasgger import swag_from
 

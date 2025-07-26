@@ -1,3 +1,4 @@
+import os
 from pydantic import Field
 from pydantic_settings import BaseSettings
 from typing import Optional
@@ -10,10 +11,19 @@ class DbSettings(BaseSettings):
     db_name: str = Field(default='techtalent_db', alias='DB_NAME')
     db_username: str = Field(default='root', alias='DB_USERNAME')
     db_password: str = Field(default='', alias='DB_PASSWORD')
+
+
+    # db_host: str = os.getenv('DB_HOST', 'localhost')
+    # db_port: str = os.getenv('DB_PORT', '3306')
+    # db_name: str = os.getenv('DB_NAME', 'techtalent_db')
+    # db_username: str = os.getenv('DB_USERNAME', 'root')
+    # db_password: str = os.getenv('DB_PASSWORD', '')
     
-    # Optional fields for future use
     secret_key: Optional[str] = Field(default=None, alias='SECRET_KEY')
     flask_debug: Optional[str] = Field(default=None, alias='FLASK_DEBUG')
+
+    secret_key: str = os.getenv('SECRET_KEY', 'default_secret_key')
+    flask_debug: str = os.getenv('FLASK_DEBUG', 'False')
 
     class Config:
         env_file = '.env'

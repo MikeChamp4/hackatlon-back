@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
 from flasgger import Swagger
-from config.ollama_settings import OllamaSettings
 from config.db_settings import DbSettings
 from routes.health_bp import health_bp
 from routes.auth_bp import auth_bp
@@ -17,7 +16,6 @@ env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
 load_dotenv(env_path)
 
 db_settings = DbSettings()
-ollama_settings = OllamaSettings()
 
 app = Flask(__name__)
 

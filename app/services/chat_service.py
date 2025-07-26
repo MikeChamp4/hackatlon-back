@@ -1,9 +1,7 @@
 import ollama
 from typing import Dict, Any
 import logging
-import os
-
-from app.config.ollama_settings import OllamaSettings
+from config.ollama_settings import OllamaSettings
 
 logger = logging.getLogger(__name__)
 
