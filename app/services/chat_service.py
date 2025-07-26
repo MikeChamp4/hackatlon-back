@@ -2,6 +2,8 @@ import ollama
 from typing import Dict, Any
 import logging
 from config.ollama_settings import OllamaSettings
+import requests
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -33,35 +35,34 @@ class ChatService:
         try:
             service = ChatService(ollama_settings=OllamaSettings())
             
-            # Verificar que el modelo esté disponible
-            if not service._is_model_available():
-                return {
-                    "success": False,
-                    "error": f"El modelo {service.ollama_settings.model_name} no está disponible. Asegúrate de que esté instalado con 'ollama pull {service.ollama_settings.model_name}'",
-                    "response": None
-                }
-            
-            # Obtener cliente de Ollama configurado
-            client = service._get_ollama_client()
-            
-            # Realizar la consulta al modelo
-            response = client.chat(
-                model=service.ollama_settings.model_name,
-                messages=[
-                    {
-                        'role': 'user',
-                        'content': query
-                    }
-                ]
-            )
-            
+            url = f"{service.ollama_settings.ollama_host}/api/generate" 
+
+            payload = json.dumps({
+                "model": service.ollama_settings.model_name,
+                "prompt": query,
+                "stream": False
+            })
+            headers = {
+                'Content-Type': 'application/json'
+            }
+
+            response = requests.post(url, headers=headers, data=payload)
+
+            print(f"\n\n res: {response.text} \n\n")
+
+
+            if response.status_code != 200:
+                raise Exception(f"Error en la petición: {response.status_code} - {response.text}")
+
+            data = response.json()
+
             return {
                 "success": True,
-                "response": response['message']['content'],
+                "response": data.get('response', ''),  
                 "model": service.ollama_settings.model_name,
                 "query": query
             }
-            
+        
         except Exception as e:
             logger.error(f"Error en ChatService.send_message: {str(e)}")
             return {

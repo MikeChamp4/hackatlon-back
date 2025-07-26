@@ -69,6 +69,7 @@ def chat():
     Endpoint para chatear con el modelo Gemma:7B
     Recibe una query del usuario y retorna la respuesta del modelo
     """
+    
     try:
         # Obtener los datos del request
         data = request.get_json()
@@ -79,7 +80,7 @@ def chat():
                 'error': 'Se requiere el campo "query" en el body del request'
             }), 400
         
-        query = data['query'].strip()
+        query: str = data['query'].strip()
         
         # Validar que la query no esté vacía
         if not query:
@@ -90,7 +91,7 @@ def chat():
         chat_service = ChatService(ollama_settings=ollama_settings)
 
         # Llamar al servicio de chat
-        response = chat_service.send_message(query)
+        response = chat_service.send_message(query=query)
 
         
         # Si hubo un error en el servicio, retornar error 500
