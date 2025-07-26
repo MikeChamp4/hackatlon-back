@@ -1,0 +1,44 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "TechTalent API",
+        "description": "API for TechTalent project - Hackathon Tarragona Impulsa",
+        "version": "1.0.0",
+        "contact": {
+            "email": "support@techtalent.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "basePath": "/",
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
+        }
+    },
+    "tags": [
+        {
+            "name": "Health",
+            "description": "Health check endpoints"
+        },
+        {
+            "name": "Authentication",
+            "description": "Authentication and authorization endpoints"
+        }
+    ]
+}
